@@ -1,15 +1,79 @@
-# Everything that isn't the static site we ship.
-# The static site lives in /website. Nothing else is needed on Vercel.
+# .vercelignore — Vercel deployment exclusions
+#
+# Only genuinely unnecessary files are excluded here. Source code for
+# every service in the repo (website/, frontend/, backend/) IS included
+# in the Vercel build context.
+#
+# The primary Vercel deployment target is the static site at /website
+# (see vercel.json → outputDirectory). The frontend/ and backend/
+# folders remain in the repo for reference and for anyone who wants to
+# expand the deployment into a multi-service setup later — see
+# `README.md` for what that would require.
 
-backend/
-frontend/
-memory/
-tests/
-test_reports/
-workspace/
-.emergent/
+# ── Version control ─────────────────────────────────────────────────
+.git/
+.gitattributes
+
+# ── OS / editor droppings ───────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+
+# ── Dependencies (Vercel regenerates from lockfiles) ────────────────
+node_modules/
+**/node_modules/
+.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# ── Local env files (secrets never go to Vercel; .env.example IS kept)
+.env
+.env.local
+.env.*.local
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+backend/.env
+backend/.env.local
+backend/.env.*.local
+
+# ── Build outputs / caches (regenerated during build) ───────────────
+frontend/build/
+frontend/dist/
+frontend/.cache/
+build/
+dist/
+.next/
+.cache/
+.turbo/
+
+# ── Python caches (backend/) ────────────────────────────────────────
+**/__pycache__/
+*.py[cod]
+.pytest_cache/
 .ruff_cache/
-scripts/
+.mypy_cache/
+.venv/
+venv/
+
+# ── Emergent workspace scratch (not part of the project) ────────────
+.emergent/
+workspace/
+memory/
+test_reports/
 test_result.md
-yarn.lock
-.oxlintrc.json
+
+# ── Vercel local artefacts ──────────────────────────────────────────
+.vercel/
+.now/
+
+# ── Logs ────────────────────────────────────────────────────────────
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
