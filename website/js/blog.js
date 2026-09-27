@@ -2,6 +2,7 @@
  * blog.js — post list, search, filter, pagination, likes.
  * Likes persist to localStorage (no backend in this demo).
  */
+/* global $id, escapeHtml, timeAgo, debounce */
 (function () {
   "use strict";
 

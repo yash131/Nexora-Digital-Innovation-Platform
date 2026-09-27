@@ -4,6 +4,7 @@
  * Every formula in the original file was broken on purpose. Each one is
  * re-implemented here with a short reference for the maths used.
  */
+/* global $id, escapeHtml, kmToMiles */
 (function () {
   "use strict";
 

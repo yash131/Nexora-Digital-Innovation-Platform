@@ -2,6 +2,7 @@
  * main.js — shared UI: nav, footer, preloader, theme, cookie banner, toasts.
  * All page-specific logic lives in its own file (admin.js, blog.js, …).
  */
+/* global SITE, escapeHtml, isEmail */
 "use strict";
 
 /* ============================================================

@@ -3,6 +3,7 @@
  * Everything is in-browser (localStorage). Real submissions would require
  * a backend or a form service — see README.md for guidance.
  */
+/* global $id, escapeHtml, sanitize, timeAgo, isEmail, toast */
 (function () {
   "use strict";
 

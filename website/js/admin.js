@@ -4,6 +4,7 @@
  * localStorage, NOT authentication. See README.md for what production auth
  * would require.
  */
+/* global $id, $$, debounce, escapeHtml, formatNumber, formatPrice, formatDate, ORDERS, Chart, toast */
 (function () {
   "use strict";
 
