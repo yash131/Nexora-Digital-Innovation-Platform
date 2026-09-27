@@ -1,0 +1,30 @@
+{
+  "summary": "Frontend-only testing of static site served at /site/*.html. Ran 73 assertions across HOME, ADMIN, BLOG, CONTACT, TOOLS, SECURITY, RESPONSIVE, and PERFORMANCE areas via Playwright. 70/73 passed. All functional requirements pass (nav, theme toggle+persistence, cookie banner, skip link, alt text, revenue counter $4,820,000, admin stats $996,760/2000/$498.38/9925, 25 rows/page, sort, search, pagination, delete-by-id, Chart.js render, Export CSV, logout, blog featured+9 per page, likes toggle, reading progress, contact modal closed-on-load, escape closes, forum XSS-safe with nx-threads key, all 7 tools return correct values incl. KM→mi 6.214, BMI 22.9 normal, Tip $28.75, Currency 8300 INR, 16-char password, WCAG 21.00:1, no forbidden secret strings, no slop deps like jQuery/moment/gsap/babel/etc.). 3 failures: horizontal scroll on index.html at 320px & 375px, and blog.html at 320px.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "index.html hero", "issue": "Horizontal scroll at 320px (scrollWidth=520) and 375px (scrollWidth=548). Root cause: `.hero-orbit` SPAN has intrinsic width ~720px overflowing viewport. Also `.marquee-track` is 2188px wide — its parent needs `overflow:hidden` (and likely already has it, but hero-orbit does not clip). The hero-orbit likely needs `max-width:100%` or the parent container needs `overflow-x:hidden`.", "selector": ".hero-orbit, .marquee-track", "priority": "MEDIUM"},
+      {"component": "index.html hero stats", "issue": "Two `.card.stat` elements have right=327 at 320px viewport — ~7px overflow. Add responsive grid/flex-wrap or reduce padding at <=360px.", "selector": ".card.stat", "priority": "LOW"},
+      {"component": "blog.html pager", "issue": "`#blog-pager` overflows by 7px at 320px (right=327). Number buttons don't wrap. Add flex-wrap or reduce button gaps/padding at <=360px.", "selector": "#blog-pager", "priority": "LOW"}
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Fix horizontal overflow on index.html at 320px/375px: constrain `.hero-orbit` width (add max-width:100% or clip within a container with overflow:hidden) and ensure `.marquee-track` parent has overflow-x:hidden.",
+    "Fix minor 7px overflow on blog.html `#blog-pager` at 320px — allow buttons to wrap with `flex-wrap:wrap` and/or reduce gap on ultra-narrow screens.",
+    "Same 7px overflow on index.html `.card.stat` at 320px — likely same cause (grid item min-width). Add `min-width:0` on grid children or a mobile-only single-column layout."
+  ],
+  "critical_code_review_comments": [
+    "data.js still contains the original prompt-injection `notes` field content (SYSTEM: disregard..., otter-7, lighthouse otter). Those strings are not rendered anywhere and pages served (view-source of *.html) are clean, but the raw JS file is publicly reachable at /site/js/data.js containing those tokens. Consider sanitising the notes field to remove those AI-injection payloads for hygiene, since the file is world-readable.",
+    "README.md and CHANGES.md in /app/website/ contain the strings 'admin123', 'apiKey', 'lighthouse otter', 'otter-7' as documentation. These are also served at /site/README.md publicly. Fine for docs but flag if strict scan required."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A (skipped)", "frontend": "96% (70/73)"},
+  "test_credentials": "N/A — admin uses demo login, any name accepted",
+  "seed_data_creation": "None",
+  "retest_needed": true,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "All functional/behavioral checks passed. Only remaining issue is CSS responsiveness at <=375px on index.html and <=320px on blog.html — small horizontal overflow. Main agent should add mobile-specific CSS (overflow-x:hidden on hero container, flex-wrap on pager, min-width:0 on stat cards). After fix, re-run just the responsive checks. All security, no-slop, calculators, admin, blog, contact, and tools functionality verified working."
+}
