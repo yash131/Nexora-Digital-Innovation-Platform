@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard — Nexora (Demo)</title>
+  <meta name="description" content="Demo admin dashboard for the Nexora sample project — read-only preview.">
+  <meta name="theme-color" content="#0b0d12">
+  <link rel="stylesheet" href="css/style.css">
+  <script>
+    (function () { try { var t = localStorage.getItem("nx-theme") || "dark"; document.documentElement.classList.toggle("light", t === "light"); } catch (e) {} })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <div id="preloader" aria-hidden="true"><div class="ring"></div></div>
+  <header class="site-nav" id="site-nav" aria-label="Primary"></header>
+
+  <main id="main" class="container">
+    <!-- Demo login (client-side only; not a real security boundary). -->
+    <section id="login-screen" class="login-screen card" hidden>
+      <span class="eyebrow">Demo access</span>
+      <h1 style="font-size: var(--step-4)">Dashboard preview</h1>
+      <p>This dashboard is a client-side demo. Anyone with the link can view it — the "login" below only remembers a preference in your browser.</p>
+      <form id="login-form" style="display:grid; gap:10px; margin-top:12px" novalidate>
+        <label for="demo-name" class="visually-hidden">Display name</label>
+        <input id="demo-name" type="text" placeholder="Your name (optional)" autocomplete="off">
+        <button class="btn btn-primary" type="submit">Enter demo</button>
+      </form>
+      <p class="demo-note">Real authentication requires a backend. See <em>Security</em> in the project README.</p>
+    </section>
+
+    <section id="admin" hidden>
+      <div class="admin-banner" role="note">
+        <span aria-hidden="true">&#9888;</span>
+        <div><strong>Demo dashboard.</strong> Data and interactions are simulated in the browser. No credentials, keys or personal data are stored server-side.</div>
+      </div>
+
+      <div class="admin-shell">
+        <aside class="card sidebar" aria-label="Dashboard sections">
+          <ul class="sidebar-list" id="admin-nav">
+            <li><button type="button" class="is-active" data-view="overview">Overview</button></li>
+            <li><button type="button" data-view="orders">Orders</button></li>
+            <li><button type="button" data-view="insights">Insights</button></li>
+            <li><button type="button" id="admin-logout">Log out</button></li>
+          </ul>
+        </aside>
+
+        <div>
+          <div class="section-head" style="text-align:left; margin-bottom: 20px">
+            <span class="eyebrow">Dashboard</span>
+            <h1 style="font-size: var(--step-4); margin: 0">Welcome back, <span class="gradient-text" id="uname">there</span></h1>
+            <p style="margin-top:6px">A quick look at recent activity.</p>
+          </div>
+
+          <div class="admin-stats">
+            <div class="card stat"><div class="lbl">Total revenue</div><div class="val" id="stat-revenue"></div><div class="delta">&#8593; 12.5% vs last month</div></div>
+            <div class="card stat"><div class="lbl">Orders</div><div class="val" id="stat-orders"></div><div class="delta">&#8593; 8.2%</div></div>
+            <div class="card stat"><div class="lbl">Avg. order</div><div class="val" id="stat-avg"></div><div class="delta">&#8593; 3.1%</div></div>
+            <div class="card stat"><div class="lbl">Items sold</div><div class="val" id="stat-qty"></div><div class="delta">&#8593; 4.0%</div></div>
+          </div>
+
+          <div class="charts">
+            <div class="card chart-box"><h4>Sales by product</h4><div class="chart-wrap"><canvas id="c1" aria-label="Sales by product chart"></canvas></div></div>
+            <div class="card chart-box"><h4>Status distribution</h4><div class="chart-wrap"><canvas id="c2" aria-label="Status distribution chart"></canvas></div></div>
+          </div>
+
+          <div class="card tbl-wrap">
+            <div class="tbl-toolbar">
+              <label for="tbl-search" class="visually-hidden">Search orders</label>
+              <input id="tbl-search" type="search" placeholder="Search by order id, customer, product or email…">
+              <button class="btn btn-ghost btn-sm" id="tbl-export">Export CSV</button>
+            </div>
+            <div class="tbl-scroll">
+              <table class="tbl" id="orders-table">
+                <thead>
+                  <tr>
+                    <th><button type="button" data-sort="id">Order</button></th>
+                    <th><button type="button" data-sort="customer">Customer</button></th>
+                    <th>Email</th>
+                    <th><button type="button" data-sort="product">Product</button></th>
+                    <th><button type="button" data-sort="amount">Amount</button></th>
+                    <th><button type="button" data-sort="qty">Qty</button></th>
+                    <th>Status</th>
+                    <th><button type="button" data-sort="date">Date</button></th>
+                    <th><span class="visually-hidden">Actions</span></th>
+                  </tr>
+                </thead>
+                <tbody id="orders-body"></tbody>
+              </table>
+            </div>
+            <div class="pagination">
+              <span id="page-info" style="font-size:0.85rem; color: var(--text-dim)"></span>
+              <div class="pages" id="pager"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="site-footer"></footer>
+
+  <script src="js/site.js"></script>
+  <script src="js/globals.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/data.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>
+  <script src="js/admin.js" defer></script>
+</body>
+</html>

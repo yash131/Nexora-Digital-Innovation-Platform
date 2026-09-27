@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tools — Nexora Toolkit</title>
+  <meta name="description" content="A small set of everyday utility calculators — free, no signup, works offline.">
+  <meta name="theme-color" content="#0b0d12">
+  <link rel="stylesheet" href="css/style.css">
+  <script>
+    (function () { try { var t = localStorage.getItem("nx-theme") || "dark"; document.documentElement.classList.toggle("light", t === "light"); } catch (e) {} })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <div id="preloader" aria-hidden="true"><div class="ring"></div></div>
+  <header class="site-nav" id="site-nav" aria-label="Primary"></header>
+
+  <main id="main" class="container">
+    <section class="tools-head">
+      <span class="badge">Seven tools &middot; free &middot; no signup</span>
+      <h1 style="margin-top: 16px">The <span class="gradient-text">toolkit</span> you didn't know you needed.</h1>
+      <p class="lead" style="margin: 12px auto 0; max-width: 560px">Everyday calculators that work on any device. Nothing leaves your browser.</p>
+    </section>
+
+    <section class="tools-grid" id="tools"></section>
+  </main>
+
+  <footer class="site-footer" id="site-footer"></footer>
+
+  <script src="js/site.js"></script>
+  <script src="js/globals.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/tools.js" defer></script>
+</body>
+</html>

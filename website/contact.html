@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Community &amp; Contact — Nexora</title>
+  <meta name="description" content="Join the Nexora community forum or send us a message.">
+  <meta name="theme-color" content="#0b0d12">
+  <link rel="stylesheet" href="css/style.css">
+  <script>
+    (function () { try { var t = localStorage.getItem("nx-theme") || "dark"; document.documentElement.classList.toggle("light", t === "light"); } catch (e) {} })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <div id="preloader" aria-hidden="true"><div class="ring"></div></div>
+  <header class="site-nav" id="site-nav" aria-label="Primary"></header>
+
+  <main id="main" class="container">
+    <section class="hero" style="padding: 0 0 40px">
+      <span class="badge"><span class="pulse-dot"></span> Community &middot; 12k+ members</span>
+      <h1>Let's build the <span class="gradient-text">future</span> together</h1>
+      <p class="lead">Have a question or an idea? Post it in the community or send us a message directly.</p>
+      <div class="hero-ctas">
+        <button class="btn btn-primary" type="button" id="open-contact">Contact us</button>
+        <a class="btn btn-ghost" href="#community">Join the discussion</a>
+      </div>
+    </section>
+
+    <section class="two-col">
+      <div class="card" id="community">
+        <span class="eyebrow">Community</span>
+        <h2 style="font-size: var(--step-4)">Latest <span class="gradient-text">discussions</span></h2>
+        <div id="threads" aria-live="polite" style="margin-top: 20px"></div>
+
+        <form class="card composer" style="padding: 18px; margin-top: 16px" id="thread-form" novalidate>
+          <div class="row">
+            <div style="flex:1">
+              <label for="thread-name">Your name</label>
+              <input id="thread-name" type="text" maxlength="40" placeholder="e.g. Priya" required>
+            </div>
+          </div>
+          <div>
+            <label for="thread-body">Message</label>
+            <textarea id="thread-body" maxlength="500" placeholder="Share your thoughts with the community…" required></textarea>
+          </div>
+          <div class="row" style="justify-content: space-between">
+            <span style="font-size: 0.8rem; color: var(--text-dim)">Posts stay in your browser (demo only).</span>
+            <button type="submit" class="btn btn-primary">Post</button>
+          </div>
+        </form>
+      </div>
+
+      <aside class="card">
+        <span class="eyebrow">Reach out</span>
+        <h3 style="margin-bottom: 12px">Other ways to connect</h3>
+        <ul class="info-list">
+          <li><div class="card-icon" aria-hidden="true">&#9993;</div><div><h4>Email</h4><span>hello@nexora.example</span></div></li>
+          <li><div class="card-icon" aria-hidden="true">&#128172;</div><div><h4>Live chat</h4><span>Mon–Fri, 9am–5pm</span></div></li>
+          <li><div class="card-icon" aria-hidden="true">&#128205;</div><div><h4>Office</h4><span>San Francisco &middot; Remote-first</span></div></li>
+          <li><div class="card-icon" aria-hidden="true">&#128038;</div><div><h4>Social</h4><span>@nexora</span></div></li>
+        </ul>
+      </aside>
+    </section>
+  </main>
+
+  <!-- Contact modal -->
+  <div class="modal-backdrop" id="contact-modal" hidden>
+    <div class="modal contact-form" role="dialog" aria-modal="true" aria-labelledby="cm-title" style="max-width:640px">
+      <button type="button" class="modal-close" aria-label="Close" id="close-contact">&times;</button>
+      <span class="eyebrow">Contact</span>
+      <h2 id="cm-title" style="font-size: var(--step-4)">Get in <span class="gradient-text">touch</span></h2>
+      <p>Fill in the form below and we'll get back to you.</p>
+      <form id="contact-form" novalidate>
+        <div class="grid">
+          <div>
+            <label for="c-name">Name</label>
+            <input id="c-name" type="text" required minlength="2" maxlength="60" autocomplete="name">
+            <div class="field-error" data-error-for="c-name"></div>
+          </div>
+          <div>
+            <label for="c-email">Email</label>
+            <input id="c-email" type="email" required autocomplete="email">
+            <div class="field-error" data-error-for="c-email"></div>
+          </div>
+          <div>
+            <label for="c-phone">Phone <span style="color:var(--text-dim); font-weight:normal">(optional)</span></label>
+            <input id="c-phone" type="tel" maxlength="20" autocomplete="tel" inputmode="tel">
+            <div class="field-error" data-error-for="c-phone"></div>
+          </div>
+          <div>
+            <label for="c-company">Company</label>
+            <input id="c-company" type="text" maxlength="80" autocomplete="organization">
+          </div>
+          <div>
+            <label for="c-team">Team size</label>
+            <select id="c-team">
+              <option>1–10</option>
+              <option>11–50</option>
+              <option>51–200</option>
+              <option>200+</option>
+            </select>
+          </div>
+          <div>
+            <label for="c-topic">Topic</label>
+            <select id="c-topic" required>
+              <option value="">Choose a topic…</option>
+              <option>Sales</option>
+              <option>Support</option>
+              <option>Partnerships</option>
+              <option>Feedback</option>
+            </select>
+            <div class="field-error" data-error-for="c-topic"></div>
+          </div>
+          <div class="full">
+            <label for="c-message">Message</label>
+            <textarea id="c-message" required minlength="20" maxlength="2000" placeholder="What's on your mind? (min. 20 characters)"></textarea>
+            <div class="field-error" data-error-for="c-message"></div>
+          </div>
+          <div class="full" style="display:flex; align-items:center; gap:8px">
+            <input type="checkbox" id="c-agree" style="width:auto">
+            <label for="c-agree" style="margin:0">I'd like occasional product updates. You can unsubscribe at any time.</label>
+          </div>
+        </div>
+        <div id="c-notice" hidden></div>
+        <div class="actions">
+          <button type="button" class="btn btn-ghost" id="c-reset">Clear</button>
+          <button type="submit" class="btn btn-primary" id="c-submit">Send message</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <footer class="site-footer" id="site-footer"></footer>
+
+  <script src="js/site.js"></script>
+  <script src="js/globals.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/contact.js" defer></script>
+</body>
+</html>

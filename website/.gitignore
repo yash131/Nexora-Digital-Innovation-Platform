@@ -1,0 +1,34 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+
+# Node (not used, but future-proof)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Local env / secrets — never commit real ones
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+
+# Vercel
+.vercel/
+.now/
+
+# Build artefacts
+dist/
+build/
+out/
