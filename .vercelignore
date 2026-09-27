@@ -1,0 +1,15 @@
+# Everything that isn't the static site we ship.
+# The static site lives in /website. Nothing else is needed on Vercel.
+
+backend/
+frontend/
+memory/
+tests/
+test_reports/
+workspace/
+.emergent/
+.ruff_cache/
+scripts/
+test_result.md
+yarn.lock
+.oxlintrc.json
