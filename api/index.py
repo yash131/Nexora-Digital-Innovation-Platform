@@ -1,13 +1,20 @@
 """
-backend/server.py — FastAPI app for the Nexora demo.
+api/index.py — Vercel Python serverless entrypoint.
 
-Runs standalone (uvicorn) and is also imported by /api/index.py so the
-same app is served under `/api/*` when deployed as a Vercel Python
-serverless function. No database — the demo uses in-memory storage.
+Vercel's Python runtime automatically serves ASGI apps exported as `app`.
+Any request to /api/* on the deployed site is rewritten to this handler
+(see the `rewrites` block in ../vercel.json) and FastAPI handles the
+routing internally to /api/, /api/health, /api/status, etc.
+
+This file is intentionally self-contained (no cross-directory imports)
+so Vercel's dependency tracer bundles only what it needs. The same
+logic is mirrored in /backend/server.py for local development with
+`uvicorn backend.server:app`.
+
+No database — the demo uses in-memory storage.
 """
 from datetime import datetime, timezone
 from typing import List
-import logging
 import os
 import uuid
 
@@ -15,22 +22,13 @@ from fastapi import APIRouter, FastAPI, HTTPException
 from pydantic import BaseModel, ConfigDict, Field
 from starlette.middleware.cors import CORSMiddleware
 
-# Optional: load a local .env when developing (safe if missing on Vercel).
-try:
-    from dotenv import load_dotenv
-    from pathlib import Path
-    load_dotenv(Path(__file__).parent / ".env")
-except Exception:
-    pass
-
 
 app = FastAPI(title="Nexora API")
-
 api_router = APIRouter(prefix="/api")
 
 
 # -----------------------------------------------------------------------------
-# In-memory store (replaces MongoDB — this project runs without a database)
+# In-memory store (replaces MongoDB; the project must work without a database)
 # -----------------------------------------------------------------------------
 _status_checks: List[dict] = []
 
@@ -70,7 +68,7 @@ async def create_status_check(payload: StatusCheckCreate):
 
 @api_router.get("/status", response_model=List[StatusCheck])
 async def list_status_checks():
-    # Return newest first, capped at 200 to keep responses small on Vercel.
+    # Newest first; capped at 200 to keep responses small on Vercel.
     return list(reversed(_status_checks))[:200]
 
 
@@ -84,4 +82,4 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+__all__ = ["app"]

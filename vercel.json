@@ -1,11 +1,15 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
-  "installCommand": "echo 'no install — pure static site'",
-  "buildCommand": "echo 'no build — pure static site'",
+  "installCommand": "echo 'no install for static site — /api dependencies are auto-installed by Vercel Python runtime from api/requirements.txt'",
+  "buildCommand": "echo 'no build — pure static site in website/'",
   "outputDirectory": "website",
   "cleanUrls": true,
   "trailingSlash": false,
+  "rewrites": [
+    { "source": "/api", "destination": "/api/index" },
+    { "source": "/api/(.*)", "destination": "/api/index" }
+  ],
   "headers": [
     {
       "source": "/(.*)",

@@ -4,8 +4,12 @@ Rebuilt version of the "MegaCorp Ultra Portal 2000" / Nexora project for
 the **Fix the Slop** college event. The site is a pure-static
 HTML / CSS / JavaScript build — no framework, no bundler, no build step.
 
-**Live deployment target:** the static site at [`website/`](website/) is
-what Vercel deploys. See `vercel.json` at the repo root.
+**What deploys where:**
+
+- `/` — the Nexora static site (`website/`)
+- `/api/*` — FastAPI serverless function (`api/index.py`), no database
+- `frontend/` and `backend/` — kept in the repo for reference; not built
+  by Vercel (see the *About `frontend/` and `backend/`* section)
 
 ## Repository layout
 
@@ -66,28 +70,60 @@ commands, so Vercel serves the static site directly.
 
 ## Deploying to Vercel
 
-The repository is Vercel-ready. Two equivalent options:
+The repository ships with three complementary Vercel configs so the
+deploy works regardless of the **Root Directory** setting in your Vercel
+project (which cannot always be changed after the initial import).
 
-### Option A — leave Root Directory at repo root (default)
+**Recommended: set Root Directory = `.` (repo root)** in Vercel →
+Settings → General → Root Directory. Then:
 
-Vercel reads `vercel.json` at the repo root. That file:
+- `vercel.json` at the repo root is read
+- `outputDirectory` = `website` — Vercel serves the static site
+- `api/index.py` is auto-detected as a Python ASGI serverless function
+- `/api` and `/api/*` are rewritten to that function
 
-- Sets `framework: null` (Vercel doesn't try to detect a framework).
-- Sets `installCommand` and `buildCommand` to no-ops (no npm install is
-  attempted on `frontend/`, so the date-fns / react-day-picker peer
-  conflict that fails on the CRA scaffold is bypassed).
-- Sets `outputDirectory: "website"` (Vercel serves that folder).
-- Adds `cleanUrls: true` so `/blog` serves `/blog.html`.
-- Adds a small set of security headers.
+If Root Directory is `website`, `website/vercel.json` is read and only
+the static site is served (no `/api`). If Root Directory is `frontend`,
+`frontend/vercel.json` overrides Create-React-App's build with a simple
+copy that dumps `website/` into the build output — so the deploy still
+shows Nexora, not the "Building something incredible" splash.
 
-Push the repo, import into Vercel, click Deploy. Done.
+### After pushing
 
-### Option B — set Root Directory to `website`
+1. Vercel auto-redeploys on new commits.
+2. Open Deployments → the latest build → check the log:
+   - `Building something incredible` should NOT appear.
+   - You should see `Copied Nexora static site into build/` (if Root
+     Directory is `frontend`) or `no build — pure static site in
+     website/` (if Root Directory is `.`).
+3. Visit the deployed URL and confirm:
+   - `/` renders Nexora.
+   - `/api/` returns `{"message": "Hello World", ...}` — only when Root
+     Directory is `.`.
 
-In Vercel → Project Settings → General → Root Directory, enter
-`website`. Vercel then reads `website/vercel.json` (which has the same
-settings scoped to that folder). This makes the whole `frontend/` and
-`backend/` folders effectively invisible to Vercel.
+### If the site still shows the Emergent splash
+
+Almost always this means Vercel's Root Directory is still `frontend`
+and the `frontend/vercel.json` override isn't being picked up (this can
+happen on projects created before the file was added).
+
+Fix: **Vercel → Project Settings → General → Root Directory → set to
+`.` → Save → Deployments → Redeploy.**
+
+## `/api` endpoints
+
+Vercel deploys `api/index.py` as a FastAPI serverless function.
+Available routes:
+
+- `GET  /api/`         → `{"message": "Hello World", "service": "Nexora API", ...}`
+- `GET  /api/health`   → `{"status": "ok"}`
+- `POST /api/status`   → create a status check (in-memory)
+- `GET  /api/status`   → list status checks (in-memory, newest first)
+
+The in-memory store resets on each cold start — this is intentional
+because the project must work without a database. Adding a hosted
+database later (Neon / Supabase / Upstash) is a small change to
+`api/index.py` if you need persistence.
 
 ## AI chat submission (required by the college)
 
