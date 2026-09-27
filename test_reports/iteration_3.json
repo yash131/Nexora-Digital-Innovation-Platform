@@ -1,0 +1,21 @@
+{
+  "summary": "Regression sanity for /site/* after root vercel.json + .vercelignore added. All 7 regression areas from iteration_2 still pass. No functional, responsive, or security regression detected. The added Vercel config files are inert relative to the runtime static site and did not affect behavior in the sandbox preview.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "Community forum 'Post' rejects messages containing HTML-only bodies with 'Please write a message.' — this is likely due to sanitization stripping tags then checking non-empty. Fine for XSS safety, but a plain text after stripping could be a friendlier UX (already safe: no raw <img> injected, no alert fires)."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100%"},
+  "seed_data_creation": "",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Confirmed regression pass on all iteration_2 checkpoints. Root vercel.json (framework=null, outputDirectory=website, no-op install/build) and .vercelignore cannot be validated inside the sandbox (Vercel is external) — only the static site behavior can be, and it is unchanged. Preview base: ${REACT_APP_BACKEND_URL}/site/. Verified: index revenue counter reaches $4,820,000; nav resolves to index/blog/admin/contact/tools; theme toggle flips <html> class to 'light'; admin Enter demo shows Revenue 996,760 / Orders 2000 / Avg 498.38 / Items 9925 with 25 table rows, sortable headers (6), pagination (8 buttons) and CSV export present; blog renders 9 posts, like button + reading progress bar present; contact modal is display:none on load (aria-hidden, display=none) and switches to display:grid after 'Contact us' click; contact modal buttons render in correct order [×, Clear, Send message] (not swapped); XSS payload '<img src=x onerror=alert(1)>' posted to community forum did NOT fire an alert and no raw <img onerror> tag is present in DOM (sanitized/rejected); tools KM 10→6.21 miles correct, all 7 calculators keywords present (BMI, tip, currency, password, age, contrast, WCAG); 0 horizontal overflow on all 5 pages × [320,375,768,1440] viewports (20/20); no 'admin123'/'sk_live_'/'adminPassword'/'apiKey'/'lighthouse otter'/'otter-7'/ai-instructions meta/brand-lock in any of index/blog/admin/contact/tools HTML or in js/site.js, js/globals.js, js/main.js, js/home.js; no console errors on index load.",
+  "rca of the issue": "No regressions. The addition of /app/vercel.json and /app/.vercelignore only affects Vercel's remote build/deploy pipeline; the sandbox preview serves files directly and is unaffected."
+}

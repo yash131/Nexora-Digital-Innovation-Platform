@@ -19,10 +19,6 @@ const Home = () => {
 
   useEffect(() => {
     helloWorldApi();
-    // Redirect root URL to the repaired static site preview.
-    if (window.location.pathname === "/") {
-      window.location.replace("/site/index.html");
-    }
   }, []);
 
   return (
